@@ -35,7 +35,7 @@ jobs:
       - name: Run AI Automation
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          WP_URL: ${{ secrets.WP1_URL }}
-          WP_USERNAME: ${{ secrets.WP1_USERNAME }}
-          WP_APP_PASSWORD: ${{ secrets.WP1_APP_PASSWORD }}
+          WP1_URL: ${{ secrets.WP1_URL }}
+          WP1_USERNAME: ${{ secrets.WP1_USERNAME }}
+          WP1_APP_PASSWORD: ${{ secrets.WP1_APP_PASSWORD }}
         run: python main.py
