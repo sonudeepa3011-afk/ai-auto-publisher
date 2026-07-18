@@ -1,15 +1,43 @@
 import requests
 from bs4 import BeautifulSoup
+from urllib.parse import urljoin
+import re
 
-API_URL = "https://sarkariresult.com.cm/wp-json/wp/v2/posts?per_page=10"
+BASE_URL = "https://www.sarkariresult.com/"
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0"
 }
 
+KEYWORDS = [
+    "result",
+    "admit card",
+    "answer key"
+]
 
-def clean_html(html):
-    return BeautifulSoup(html, "html.parser").get_text(" ", strip=True)
+
+def get_page_content(url):
+    try:
+        r = requests.get(url, headers=HEADERS, timeout=20)
+        r.raise_for_status()
+
+        soup = BeautifulSoup(r.text, "html.parser")
+
+        paragraphs = []
+
+        for p in soup.find_all("p"):
+            text = p.get_text(" ", strip=True)
+            if len(text) > 20:
+                paragraphs.append(text)
+
+        if len(paragraphs) < 3:
+            text = soup.get_text("\n", strip=True)
+            return text[:12000]
+
+        return "\n".join(paragraphs)
+
+    except Exception:
+        return ""
 
 
 def get_latest_news():
@@ -18,29 +46,56 @@ def get_latest_news():
 
     try:
 
-        response = requests.get(API_URL, headers=HEADERS, timeout=20)
-        response.raise_for_status()
+        r = requests.get(BASE_URL, headers=HEADERS, timeout=20)
+        r.raise_for_status()
 
-        posts = response.json()
+        soup = BeautifulSoup(r.text, "html.parser")
 
-        for post in posts:
+        seen = set()
 
-            title = clean_html(post["title"]["rendered"])
-            content = clean_html(post["content"]["rendered"])
-            excerpt = clean_html(post["excerpt"]["rendered"])
+        for a in soup.find_all("a"):
 
-            if len(content) < 100:
+            title = a.get_text(" ", strip=True)
+
+            if len(title) < 10:
+                continue
+
+            title_lower = title.lower()
+
+            if not any(keyword in title_lower for keyword in KEYWORDS):
+                continue
+
+            href = a.get("href")
+
+            if not href:
+                continue
+
+            url = urljoin(BASE_URL, href)
+
+            if url in seen:
+                continue
+
+            seen.add(url)
+
+            content = get_page_content(url)
+
+            if len(content) < 200:
                 continue
 
             news.append({
                 "title": title,
                 "content": content,
-                "description": excerpt,
-                "url": post["link"],
-                "date": post["date"][:10]
+                "description": content[:300],
+                "url": url,
+                "date": ""
             })
 
+            print("Found:", title)
+
+            if len(news) >= 20:
+                break
+
     except Exception as e:
-        print("Sarkar Result API Error:", e)
+        print("Sarkari Result Error:", e)
 
     return news
