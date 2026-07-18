@@ -3,7 +3,7 @@ import google.generativeai as genai
 
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
-model = genai.GenerativeModel("gemini-flash-Latest")
+model = genai.GenerativeModel("gemini-flash-latest")
 
 
 def generate_news(title, description):
