@@ -41,6 +41,6 @@ def get_latest_news():
             })
 
     except Exception as e:
-        print("Avenue Mail API Error:", e)
+        print("Sarkar Result API Error:", e)
 
     return news
