@@ -9,7 +9,7 @@ model = genai.GenerativeModel("gemini-flash-latest")
 def generate_news(title, description):
 
     prompt = f"""
-You are a professional News Editor and SEO Content Writer.
+You are a professional Goverment job Expert and SEO Content Writer.
 
 Write a 100% unique, plagiarism-free, Google Discover friendly news article.
 
