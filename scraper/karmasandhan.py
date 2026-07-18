@@ -41,6 +41,6 @@ def get_latest_news():
             })
 
     except Exception as e:
-        print("RanchiUpdates Error:", e)
+        print("Karmasandhan Error:", e)
 
     return news
