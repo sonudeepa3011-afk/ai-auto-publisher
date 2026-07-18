@@ -22,7 +22,7 @@ def main():
     # ==========================
     try:
         print("\nFetching Karmasandhan News...")
-        karmasandhan = karmasandhan_news()
+        karmasandhan = karmasandhan_news()[:10]
         print(f"Karmasandhan : {len(karmasandhan)} News")
         news_list.extend(karmasandhan)
 
@@ -34,7 +34,7 @@ def main():
     # ==========================
     try:
         print("\nFetching Sarkari Result News...")
-        sarkari = sarkariresult_news()
+        sarkari = sarkariresult_news()[:10]
         print(f"Sarkari Result : {len(sarkari)} News")
         news_list.extend(sarkari)
 
@@ -46,7 +46,7 @@ def main():
     # ==========================
     try:
         print("\nFetching Buddy4Study News...")
-        buddy = buddy_news()
+        buddy = buddy_news()[:10]
         print(f"Buddy4Study : {len(buddy)} News")
         news_list.extend(buddy)
 
