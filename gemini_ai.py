@@ -29,10 +29,11 @@ Rules:
 6. Use H2 and H3 headings.
 7. Short paragraphs.
 8. Bullet points.
-9. 5 SEO FAQs.
+9. 6 FAQs google ai friendly.
 10. Short Conclusion.
 11. Return clean HTML only.
 12. No Markdown.
+13. No divider line used in the post (`---`, `***`, `___`)
 
 Return ONLY in this format:
 
