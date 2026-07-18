@@ -1,14 +1,14 @@
 import os
 import requests
 
-WP_URL = os.getenv("WP_URL")
-WP_USERNAME = os.getenv("WP_USERNAME")
-WP_APP_PASSWORD = os.getenv("WP_APP_PASSWORD")
+WP1_URL = os.getenv("WP1_URL")
+WP1_USERNAME = os.getenv("WP1_USERNAME")
+WP1_APP_PASSWORD = os.getenv("WP1_APP_PASSWORD")
 
 
 def create_draft(title, slug, article, meta_description, comma_tags):
 
-    url = f"{WP_URL}/wp-json/wp/v2/posts"
+    url = f"{WP1_URL}/wp-json/wp/v2/posts"
 
     final_content = f"""
 {article}
@@ -39,7 +39,7 @@ def create_draft(title, slug, article, meta_description, comma_tags):
         url,
         headers=headers,
         json=data,
-        auth=(WP_USERNAME, WP_APP_PASSWORD)
+        auth=(WP1_USERNAME, WP1_APP_PASSWORD)
     )
 
     if response.status_code in [200, 201]:
