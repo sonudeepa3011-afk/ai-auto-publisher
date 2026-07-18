@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from scraper.karmasandhan import get_latest_news as karmasandhan
-from scraper.Sarkari Result import get_latest_news as sarkari result
+from scraper.sarkariresult import get_latest_news as sarkariresult
 
 from duplicate import is_duplicate
 from gemini_ai import generate_news
