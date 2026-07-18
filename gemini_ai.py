@@ -3,80 +3,83 @@ import google.generativeai as genai
 
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
-model = genai.GenerativeModel("gemini-flash-latest")
+model = genai.GenerativeModel("gemini-2.5-flash")
 
 
 def generate_news(title, description):
 
     prompt = f"""
-You are a professional Goverment job Expert and SEO Content Writer.
+You are an expert Government Job, Result and Education News writer.
 
-Write a 100% unique, plagiarism-free, Google Discover friendly news article.
+Create a completely unique SEO optimized article.
 
 News Title:
 {title}
 
-News Description:
+News Content:
 {description}
 
-Requirements:
+Rules:
 
-1. Write the article in Hindi (Devanagari).
-2. Keep important words like Result, Admit Card, Recruitment, Notification, Apply Online, Last Date, Official Website, Exam Date, Launch, Price etc. in English.
-3. Use simple human-like language.
-4. Use H2 and H3 headings.
-5. Keep paragraphs short (2-3 lines).
-6. Use bullet points where needed.
-7. Include only verified facts from the given news.
-8. Add 5 SEO-friendly FAQs.
-9. Add a short conclusion.
-10. Write 800-1200 words.
-11. Output article in clean HTML only.
-12. Do not use Markdown.
+1. Write in Simple English Easy to understand.
+2. Keep words like Result, Admit Card, Recruitment, Notification, Apply Online, Last Date, Official Website, Exam Date in English.
+3. Human written style.
+4. Google Discover Friendly.
+5. 800-1200 words.
+6. Use H2 and H3 headings.
+7. Short paragraphs.
+8. Bullet points.
+9. 5 SEO FAQs.
+10. Short Conclusion.
+11. Return clean HTML only.
+12. No Markdown.
 
-Return output exactly in this format:
+Return ONLY in this format:
 
 TITLE:
-(SEO Friendly Title)
+...
 
 SLUG:
-(English only, lowercase, hyphen separated)
+...
 
 META DESCRIPTION:
-(150-160 characters)
+...
 
 COMMA TAGS:
-(12 SEO Friendly comma separated tags)
+...
 
 ARTICLE:
-(Complete HTML Article)
+...
 """
 
-    response = model.generate_content(prompt)
+    response = model.generate_content(
+        prompt,
+        generation_config={
+            "temperature": 0.7,
+            "top_p": 0.9,
+            "top_k": 40,
+            "max_output_tokens": 8192,
+        },
+    )
 
     text = response.text.strip()
 
     data = {
-        "title": "",
+        "title": title,
         "slug": "",
         "meta_description": "",
         "comma_tags": "",
-        "article": ""
+        "article": text,
     }
 
     try:
-
         data["title"] = text.split("TITLE:")[1].split("SLUG:")[0].strip()
-
         data["slug"] = text.split("SLUG:")[1].split("META DESCRIPTION:")[0].strip()
-
         data["meta_description"] = text.split("META DESCRIPTION:")[1].split("COMMA TAGS:")[0].strip()
-
         data["comma_tags"] = text.split("COMMA TAGS:")[1].split("ARTICLE:")[0].strip()
-
         data["article"] = text.split("ARTICLE:")[1].strip()
 
     except Exception:
-        data["article"] = text
+        print("Warning: Gemini response format changed. Using raw article.")
 
     return data
