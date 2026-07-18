@@ -2,9 +2,9 @@ import os
 import requests
 from slugify import slugify
 
-WP_URL = os.getenv("WP1_URL")
-WP_USERNAME = os.getenv("WP1_USERNAME")
-WP_APP_PASSWORD = os.getenv("WP1_APP_PASSWORD")
+WP1_URL = os.getenv("WP1_URL")
+WP1_USERNAME = os.getenv("WP1_USERNAME")
+WP1_APP_PASSWORD = os.getenv("WP1_APP_PASSWORD")
 
 
 def is_duplicate(title):
