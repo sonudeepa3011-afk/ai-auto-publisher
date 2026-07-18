@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from scraper.ranchiupdates import get_latest_news as ranchi_news
-from scraper.avenue_mail import get_latest_news as avenue_news
+from scraper.karmasandhan import get_latest_news as karmasandhan
+from scraper.Sarkari Result import get_latest_news as sarkari result
 
 from duplicate import is_duplicate
 from gemini_ai import generate_news
@@ -16,23 +16,23 @@ def main():
 
     news_list = []
 
-    # RanchiUpdates
+    # karmasandhan 
     try:
-        print("\nFetching RanchiUpdates News...")
+        print("\nFetching karmasandhan News...")
         ranchi = ranchi_news()
-        print(f"RanchiUpdates: {len(ranchi)} News")
+        print(f"karmasandhan : {len(ranchi)} News")
         news_list.extend(ranchi)
     except Exception as e:
-        print("RanchiUpdates Error:", e)
+        print("karmasandhan  Error:", e)
 
-    # Avenue Mail
+    # Sarkari Result
     try:
-        print("\nFetching Avenue Mail News...")
+        print("\nFetching Sarkari Result  News...")
         avenue = avenue_news()
-        print(f"Avenue Mail: {len(avenue)} News")
+        print(f"Sarkari Result : {len(avenue)} News")
         news_list.extend(avenue)
     except Exception as e:
-        print("Avenue Mail Error:", e)
+        print("Sarkari Result  Error:", e)
 
     if not news_list:
         print("\nNo News Found.")
